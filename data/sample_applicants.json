@@ -1,0 +1,5 @@
+[
+  {"name": "Jane Doe", "skills": ["Python", "AI"], "experience": 3, "education": "BSc Computer Science"},
+  {"name": "John Smith", "skills": ["HTML", "CSS", "JS"], "experience": 1, "education": "BSc IT"},
+  {"name": "Tolu Ade", "skills": ["Data Science", "Machine Learning"], "experience": 4, "education": "MSc Data Science"}
+]

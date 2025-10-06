@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Applicant Selection Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0066ff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #004ecc;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e9f7ef;
+      border-radius: 8px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>AI Applicant Selection Tool</h2>
+    <form id="applicantForm">
+      <label>Name</label>
+      <input type="text" id="name" required>
+
+      <label>Years of Experience</label>
+      <input type="number" id="experience" required>
+
+      <label>Skills Score (1-10)</label>
+      <input type="number" id="skills" required>
+
+      <label>Education Level</label>
+      <select id="education">
+        <option>High School</option>
+        <option>Bachelor</option>
+        <option>Master</option>
+        <option>PhD</option>
+      </select>
+
+      <label>Portfolio Score (1-10)</label>
+      <input type="number" id="portfolio" required>
+
+      <label>Soft Skills (1-10)</label>
+      <input type="number" id="soft" required>
+
+      <button type="submit">Rank Applicant</button>
+    </form>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("applicantForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById("name").value,
+        years_experience: parseInt(document.getElementById("experience").value),
+        skills_score: parseInt(document.getElementById("skills").value),
+        education_level: document.getElementById("education").value,
+        portfolio_score: parseInt(document.getElementById("portfolio").value),
+        soft_skills: parseInt(document.getElementById("soft").value)
+      };
+
+      const response = await fetch("http://127.0.0.1:8000/rank_applicant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      document.getElementById("result").innerHTML = `
+        <h3>Result:</h3>
+        <p><strong>Name:</strong> ${result.applicant_name}</p>
+        <p><strong>Education:</strong> ${result.education_level}</p>
+        <p><strong>AI Score:</strong> ${result.AI_score}</p>
+        <p><strong>Recommendation:</strong> ${result.recommendation}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
